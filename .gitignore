@@ -2,3 +2,9 @@ data/processed/
 data/raw/
 submissions/
 reports/figures/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.env
