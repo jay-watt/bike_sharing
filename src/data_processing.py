@@ -1,5 +1,5 @@
 import pandas as pd
-from config import RAW_TRAIN_PATH, RAW_TEST_PATH
+from config import RAW_TRAIN_PATH, RAW_TEST_PATH, CATEGORICAL_FEATURES
 
 
 def load_data(filepath):
@@ -29,3 +29,19 @@ def load_train_and_test_data():
     test_data = load_data(RAW_TEST_PATH)
 
     return train_data, test_data
+
+
+def perform_categorical_conversion(data):
+    for feature in CATEGORICAL_FEATURES:
+        data[feature] = data[feature].astype('category')
+
+    return data
+
+
+def preprocess_data(data):
+    perform_categorical_conversion(data)
+
+
+def preprocess_train_and_test_data(train_data, test_data):
+    preprocess_data(train_data)
+    preprocess_data(test_data)
