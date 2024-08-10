@@ -1,4 +1,5 @@
 import pandas as pd
+from config import RAW_TRAIN_PATH, RAW_TEST_PATH
 
 
 def load_data(filepath):
@@ -17,18 +18,14 @@ def load_data(filepath):
     return df
 
 
-def load_train_and_test_data(train_filepath, test_filepath):
+def load_train_and_test_data():
     """
     Load training and testing data from CSV files.
-
-    Parameters:
-    - train_filepath (str): The path to the training CSV file.
-    - test_filepath (str): The path to the testing CSV file.
 
     Returns:
     - tuple: A tuple containing the training and testing DataFrames.
     """
-    train_data = load_data(train_filepath)
-    test_data = load_data(test_filepath)
+    train_data = load_data(RAW_TRAIN_PATH)
+    test_data = load_data(RAW_TEST_PATH)
 
     return train_data, test_data
