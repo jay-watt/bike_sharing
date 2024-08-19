@@ -17,29 +17,38 @@ def load_train_and_test_data():
 
 
 def perform_categorical_conversion(data):
+    converted_data = data.copy()
     for feature in CATEGORICAL_FEATURES:
-        data[feature] = data[feature].astype('category')
+        converted_data[feature] = converted_data[feature].astype('category')
 
-    return data
+    return converted_data
 
 
 def convert_datetime_to_timestamp(data):
-    data['datetime'] = data['datetime'].astype(
-        'int64') // (10**9 * 3600)  # Convert to hours
+    converted_data = data.copy()
+    converted_data['datetime'] = converted_data['datetime'].astype(
+        'int64') // (10**9 * 3600)
 
-    return data
+    return converted_data
 
 def transform_target_variable_data(data):
-    data[TARGET_VARIABLES] = data[TARGET_VARIABLES].apply(lambda x: np.log(x + 1))
+    transformed_data = data.copy()
+    transformed_data[TARGET_VARIABLES] = transformed_data[TARGET_VARIABLES].apply(lambda x: np.log(x + 1))
     
-    return data
+    return transformed_data
 
 
 def preprocess_data(data):
-    perform_categorical_conversion(data)
-    convert_datetime_to_timestamp(data)
+    processed_data = data.copy()
+    processed_data = perform_categorical_conversion(processed_data)
+    processed_data = convert_datetime_to_timestamp(processed_data)
+    processed_data = transform_target_variable_data(processed_data)
+    
+    return processed_data
 
 
 def preprocess_train_and_test_data(train_data, test_data):
-    preprocess_data(train_data)
-    preprocess_data(test_data)
+    processed_train_data = train_data.copy()
+    processed_test_data = test_data.copy()
+    processed_train_data = preprocess_data(processed_train_data)
+    processed_test_data = preprocess_data(processed_test_data)
