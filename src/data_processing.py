@@ -27,9 +27,11 @@ def perform_categorical_conversion(data):
 def transform_datetime(data):
     transformed_data = data.copy()
     transformed_data['hour'] = transformed_data['datetime'].dt.hour
+    transformed_data['hour_sin'] = np.sin(transformed_data['hour'] * (2 * np.pi / 24))
+    transformed_data['hour_cos'] = np.cos(transformed_data['hour'] * (2 * np.pi / 24))
     transformed_data['day'] = transformed_data['datetime'].dt.dayofweek
     transformed_data['month'] = transformed_data['datetime'].dt.month
-    transformed_data.drop(columns=['datetime'], inplace=True)
+    transformed_data.drop(columns=['datetime', 'hour'], inplace=True)
 
     return transformed_data
 
