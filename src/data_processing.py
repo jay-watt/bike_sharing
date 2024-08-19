@@ -1,5 +1,6 @@
 import pandas as pd
-from config import RAW_TRAIN_PATH, RAW_TEST_PATH, CATEGORICAL_FEATURES
+import numpy as np
+from config import RAW_TRAIN_PATH, RAW_TEST_PATH, CATEGORICAL_FEATURES, TARGET_VARIABLES
 
 
 def load_data(filepath):
@@ -26,6 +27,11 @@ def convert_datetime_to_timestamp(data):
     data['datetime'] = data['datetime'].astype(
         'int64') // (10**9 * 3600)  # Convert to hours
 
+    return data
+
+def transform_target_variable_data(data):
+    data[TARGET_VARIABLES] = data[TARGET_VARIABLES].apply(lambda x: np.log(x + 1))
+    
     return data
 
 
