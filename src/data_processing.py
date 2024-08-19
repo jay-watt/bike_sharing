@@ -24,12 +24,14 @@ def perform_categorical_conversion(data):
     return converted_data
 
 
-def convert_datetime_to_timestamp(data):
-    converted_data = data.copy()
-    converted_data['datetime'] = converted_data['datetime'].astype(
-        'int64') // (10**9 * 3600)
+def transform_datetime(data):
+    transformed_data = data.copy()
+    transformed_data['hour'] = transformed_data['datetime'].dt.hour
+    transformed_data['day'] = transformed_data['datetime'].dt.dayofweek
+    transformed_data['month'] = transformed_data['datetime'].dt.month
+    transformed_data.drop(columns=['datetime'], inplace=True)
 
-    return converted_data
+    return transformed_data
 
 def transform_target_variable_data(data):
     transformed_data = data.copy()
@@ -41,7 +43,7 @@ def transform_target_variable_data(data):
 def preprocess_data(data):
     processed_data = data.copy()
     processed_data = perform_categorical_conversion(processed_data)
-    processed_data = convert_datetime_to_timestamp(processed_data)
+    processed_data = transform_datetime(processed_data)
     processed_data = transform_target_variable_data(processed_data)
     
     return processed_data
